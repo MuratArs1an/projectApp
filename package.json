@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js"
   },
   "keywords": [],
@@ -17,5 +16,9 @@
     "method-override": "^3.0.0",
     "nodemon": "^3.0.3",
     "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.41.2",
+    "@types/node": "^20.11.17"
   }
 }
