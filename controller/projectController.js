@@ -22,22 +22,27 @@ exports.getAllUsers=async(req,res)=>{
 
 exports.createProject=async(req, res)=>{
     try {
-        const query="INSERT INTO projects (title,description, startingDate, deadline, user_id) VALUES (?,?,?,?,?) RETURNING *";
-        const values = [req.body.title, req.body.description, req.body.startingDate, req.body.deadline, req.body.userId];
-        const {rows}=await postgresClient.query(query,values)
+        const query="INSERT INTO projects (title, user_id, description, importance, start, deadline ) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *";
+        const values = [req.body.title, req.body.userId, req.body.description, req.body.importance, req.body.start, req.body.deadline ];
+        //console.log(typeof(req.body.startingDate));
+        const {rows}= await postgresClient.query(query,values)
+        console.log("rows",rows);
         res.status(201).json({ message: rows[0] });
     } catch (error) {
-        return res.status(500).json({ error: 'Internal Server Error' });
+        //console.error('Error adding project:', error.response);
+        console.log("error log",error);
+        //return res.status(500).json({ error: 'Internal Server Error' });
     }
 }
 
 exports.createUser=async(req,res)=>{
     try {
-        const query="INSERT INTO users (name, lastname, title) VALUES (?,?,?) RETURNING *";
+        const query="INSERT INTO users (name, lastname, title) VALUES ($1, $2, $3) RETURNING *";
         const values = [req.body.name, req.body.lastname, req.body.title];
         const {rows}= await postgresClient.query(query,values)
         res.status(201).json({ message: rows[0] });
     } catch (error) {
+        console.error(error.response.data);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 }
